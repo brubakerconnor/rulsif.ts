@@ -4,7 +4,7 @@ comp_med <- function(x) {
     n <- dim(x)[2]
 
     # calculate median
-    G <- matrix(rep(colSums(x ^ 2), times = n), nrow = n, byrow = T)
+    G <- matrix(rep(colSums(x ^ 2), times = n), nrow = n, byrow = TRUE)
     D <- G - (2 * t(x) %*% x) + t(G)
     D[upper.tri(D)] <- 0
 
