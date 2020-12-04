@@ -1,4 +1,29 @@
-ts_detect <- function(ts, window_size = 5, step = 30,
+#' Change point detection
+#'
+#' Detect change points in a time series using RelULSIF.
+#'
+#' @param ts Time series to detect change points in. Assumes this is a D by N matrix
+#'           where D is the dimension of the time series and N is the number of
+#'           time points.
+#' @param window_size The length of the sub-sequences generated from the series. Default `5`.
+#' @param step How many sub-sequences forward and backward to from a time point
+#'             to compute a score from. Default is 10% of the length of the series
+#'             if not specified.
+#' @param alpha Relative parameter. Default `0.05`. Setting to `0` recovers
+#'              ordinary unconstrained least squares importance fitting.
+#' @param k Number of basis functions. Default is minimum of `100` and dimension of
+#'          the time series.
+#' @param n_folds Number of folds to use in determining optimal kernel bandwidth
+#'                and lambda parameter in RULSIF.
+#'
+#' @return A vector of change point scores for each time point starting at t = step
+#'         and ending at t = (number of time points) - window_size.
+#' @export
+#'
+#' @examples
+#' t <- c(rnorm(150, mean = 0), rnorm(150, mean = 5), rnorm(150, mean = 1))
+#' ts_detect(t)
+ts_detect <- function(ts, window_size = 5, step = NULL,
                       alpha = 0.05, k = 100, n_folds = 5) {
     # parameters
     dim_ts <- dim(X)[1]
@@ -13,8 +38,12 @@ ts_detect <- function(ts, window_size = 5, step = 30,
     }
 
     # step
-    if (step <= 0 || step %% 1 != 0) {
+    if (is.null(step)) {
+        step <- 0.1 * N_time_points
+    } else if (step <= 0 || step %% 1 != 0) {
         stop("Parameter step must be a positive integer.")
+    } else if (step > N_time_points - window_size) {
+        stop("Parameter step is too large. Try reducing it.")
     }
 
     # alpha
