@@ -1,0 +1,20 @@
+Package: rulsif.ts
+Title: Time Series Change Point Detection Using Relative Unconstrained Least Squares Importance Fitting (RULSIF)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Connor",
+           family = "Brubaker",
+           role = c("aut", "cre"),
+           email = "brubaker@tamu.edu")
+Description: rulsif.ts implements relative unconstrained least squares importance fitting for
+    the task of detecting change points in time series data. The main function is ts_detect which
+    automatically creates a matrix of subsequences of the series and associates to each time point
+    a "score" from which change points may be detected. A plotting function, ts_detect_plot, 
+    visualizes one-dimensional series, scores, and highlights change point candidates given a threshold.
+    The functions in comp_dist.R, comp_median.R, gaussian_kernel.R, RelULSIF.R, and 
+    sigma_lambda_grid_search.R were originally written in MATLAB by Song Liu.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
