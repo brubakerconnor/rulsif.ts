@@ -9,5 +9,5 @@ comp_med <- function(x) {
     D[upper.tri(D)] <- 0
 
     # return
-    return(sqrt(0.5 * median(D[D > 0])))
+    return(sqrt(0.5 * stats::median(D[D > 0])))
 }
