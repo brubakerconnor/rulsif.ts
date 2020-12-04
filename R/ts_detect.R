@@ -22,16 +22,17 @@
 #'
 #' @examples
 #' t <- c(rnorm(150, mean = 0), rnorm(150, mean = 5), rnorm(150, mean = 1))
+#' t <- matrix(t, nrow = 1)
 #' ts_detect(t)
 ts_detect <- function(ts, window_size = 5, step = NULL,
                       alpha = 0.05, k = 100, n_folds = 5) {
     # parameters
-    dim_ts <- dim(X)[1]
-    N_time_points <- dim(X)[2]
+    dim_ts <- dim(ts)[1]
+    N_time_points <- dim(ts)[2]
 
     # compatibility checks on input variables
     # window_size
-    if (window_size <= 0 || w %% 1 != 0) {
+    if (window_size <= 0 || window_size %% 1 != 0) {
         stop("Parameter window_size must be a positive integer.")
     } else if (window_size > (N_time_points - 1)) {
         stop("Parameter window_size too large. Try reducing it.")
