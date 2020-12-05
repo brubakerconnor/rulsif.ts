@@ -12,6 +12,8 @@ fitting for the task of detecting change points in time series data. The
 primary function is `ts_detect` which returns a sequence of change point
 scores for each time point starting at a specified point in the series.
 
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
 ## Installation
 
 You can install the the development version from

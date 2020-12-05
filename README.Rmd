@@ -5,6 +5,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
+library(rulsif.ts)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -21,6 +22,26 @@ knitr::opts_chunk$set(
 `rulsif.ts` implements relative unconstrained least squares importance fitting for the task
 of detecting change points in time series data. The primary function is `ts_detect` which returns
 a sequence of change point scores for each time point starting at a specified point in the series.
+
+```{r, echo = F}
+ts <- c(rnorm(100, 0, 0.5), rnorm(150, 5, 0.5), rnorm(75, -1, 0.5))
+d <- ts_detect(ts)
+thresh <- 0.9
+change_point_indices <- which(d$scores > (thresh * max(d$scores))) + d$step
+par(mfrow = c(2, 1), oma = rep(1, 4),
+          mar = rep(0.5, 4))
+plot(1:length(ts), ts, type = 'l', xlab = '', ylab = '', xaxt = 'n', yaxt = 'n')
+rect(xleft = change_point_indices, 
+     ybottom = rep(min(ts), length(change_point_indices)) - 0.5,
+     xright = change_point_indices + 1, 
+     ytop = rep(max(ts, length(change_point_indices))) + 0.5,
+     col = '#DD666666', border = NA)
+plot(1:length(d$scores) + d$step, d$scores, type = 'l', col = 'red', 
+     xlim = c(1, length(ts)),
+     xlab = '', ylab = '',
+     xaxt = 'n', yaxt = 'n')
+```
+
 
 ## Installation
 
