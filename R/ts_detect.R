@@ -26,11 +26,19 @@
 #' ts_detect(t)
 ts_detect <- function(ts, window_size = 5, step = NULL,
                       alpha = 0.05, k = 100, n_folds = 5) {
-    # parameters
+
+    # compatibility checks on input variables
+    # ensure ts is a matrix
+    if (is.vector(ts)) {
+        ts <- matrix(ts, nrow = 1)
+    } else if (!is.matrix(ts)) {
+        stop("Parameter ts must be a matrix.")
+    }
+
+    # dimensional parameters
     dim_ts <- dim(ts)[1]
     N_time_points <- dim(ts)[2]
 
-    # compatibility checks on input variables
     # window_size
     if (window_size <= 0 || window_size %% 1 != 0) {
         stop("Parameter window_size must be a positive integer.")
@@ -40,7 +48,7 @@ ts_detect <- function(ts, window_size = 5, step = NULL,
 
     # step
     if (is.null(step)) {
-        step <- 0.1 * N_time_points
+        step <- floor(0.1 * N_time_points)
     } else if (step <= 0 || step %% 1 != 0) {
         stop("Parameter step must be a positive integer.")
     } else if (step > N_time_points - window_size) {
