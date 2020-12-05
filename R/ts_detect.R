@@ -91,5 +91,9 @@ ts_detect <- function(ts, window_size = 5, step = NULL,
     }
 
     # return
-    return(scores)
+    return(list(
+        ts = ts,
+        step = step,
+        scores = scores
+    ))
 }
