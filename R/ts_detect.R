@@ -4,7 +4,8 @@
 #'
 #' @param ts Time series to detect change points in. Assumes this is a D by N matrix
 #'           where D is the dimension of the time series and N is the number of
-#'           time points.
+#'           time points. If a vector is provided, will assume the time series is
+#'           one-dimensional.
 #' @param window_size The length of the sub-sequences generated from the series. Default `5`.
 #' @param step How many sub-sequences forward and backward to from a time point
 #'             to compute a score from. Default is 10% of the length of the series
