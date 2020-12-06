@@ -1,0 +1,25 @@
+---
+title: "Demonstration of RelULSIF"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rulsif_demo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+This vignette assumes basic familiarity with time series data. It will start 
+with a high-level overview of the RelULSIF algorithm 
+followed by an application of this package to analyzing synthetic data.
+
+## What is change point detection?
+Change point detection is the task of determining which points in time the 
+statistical properties (e.g. mean, standard deviation) of a time series or
+stochastic processes changes. Put another way, we look for time points at which
+the probability distribution of the series changes. The problem refers to both
+the question of whether or not a change has occurred and if so, at which time point
+it did occur. In more mathematical terms, suppose we have an ordered sequence of data 
+$y_{N} = (y_1, \ldots, y_N)$. We say a change point has occurred if there exists a
+time point $t^* \in \{1, 2, \ldots, N - 1\}$ such that the statistical properties
+of $(y_1, \ldots, y_{t^*})$ and $(y_{t^*+1}, \ldots, y_N)$ are different in some way.
