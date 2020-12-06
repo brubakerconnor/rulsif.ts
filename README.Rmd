@@ -26,8 +26,7 @@ a sequence of change point scores for each time point starting at a specified po
 ```{r, echo = F}
 ts <- c(rnorm(100, 0, 0.5), rnorm(150, 5, 0.5), rnorm(75, -1, 0.5))
 d <- ts_detect(ts)
-thresh <- 0.9
-change_point_indices <- which(d$scores > (thresh * max(d$scores))) + d$step
+change_point_indices <- d$change_points
 par(mfrow = c(2, 1), oma = rep(1, 4),
           mar = rep(0.5, 4))
 plot(1:length(ts), ts, type = 'l', xlab = '', ylab = '', xaxt = 'n', yaxt = 'n')
