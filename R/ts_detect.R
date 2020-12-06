@@ -16,6 +16,9 @@
 #'          the time series.
 #' @param n_folds Number of folds to use in determining optimal kernel bandwidth
 #'                and lambda parameter in RULSIF.
+#' @param thresh Scalar in (0, 1) indicating the percentile above which a score
+#'               is considered a potential change-point. Lower values increase
+#'               the sensitivity.
 #'
 #' @return A vector of change point scores for each time point starting at t = step
 #'         and ending at t = (number of time points) - window_size.
@@ -26,7 +29,8 @@
 #' t <- matrix(t, nrow = 1)
 #' ts_detect(t)
 ts_detect <- function(ts, window_size = 5, step = NULL,
-                      alpha = 0.05, k = 100, n_folds = 5) {
+                      alpha = 0.05, k = 100, n_folds = 5,
+                      thresh = 0.9) {
 
     # compatibility checks on input variables
     # ensure ts is a matrix
@@ -73,6 +77,11 @@ ts_detect <- function(ts, window_size = 5, step = NULL,
         stop("Parameter n_folds exceeds number of points in the input time series.")
     }
 
+    # tresh
+    if (thresh <= 0 || thresh >= 1 || length(thresh) > 1) {
+        stop("Parameter thresh should be a scalar in (0, 1).")
+    }
+
     # constructing sliding window
     sw <- sliding_window(X = ts, window_size = window_size)
     n_samples <- dim(sw)[2]
@@ -90,10 +99,14 @@ ts_detect <- function(ts, window_size = 5, step = NULL,
         t <- t + 1
     }
 
+    # get change point indices
+    change_points <- which(scores > (thresh * max(scores))) + step
+
     # return
     return(list(
         ts = ts,
         step = step,
-        scores = scores
+        scores = scores,
+        change_points = change_points
     ))
 }
