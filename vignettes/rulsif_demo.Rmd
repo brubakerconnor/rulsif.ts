@@ -9,6 +9,9 @@ vignette: >
 
 ```{r, echo=FALSE}
 library(rulsif.ts)
+knitr::opts_chunk$set(
+    fig.width=6, fig.height=4, fig.align='center'
+)
 ```
 
 # Introduction
@@ -51,7 +54,7 @@ series <- c(
 
 And now visualize the series:
 
-```{r, fig.width=6, fig.height=4, fig.align='center'}
+```{r}
 plot(1:length(series), series, type = 'l', xlab = 'time', ylab = 'data')
 ```
 
@@ -182,4 +185,20 @@ detect_step_100 <- ts_detect(series, step = 100, make_plot = TRUE)
 
 There really is a true disadvantage to reducing the step size; you should really try to make
 it as small as possible if you can afford the computation time.
+
+## Putting it all together
+It seems that the adjustments that helped us the most were the ones to `window_size`
+and `step`. Let's try a shorter window size and earlier step.
+
+```{r}
+detect_final <- ts_detect(series, window_size = 2, step = 10,
+                          thresh = 0.6, make_plot = TRUE)
+```
+
+So not only have we picked up more of the true change points, but the detection
+bands are narrower making the results more accurate. We'd have "perfect" results
+were it not for that pesky standard deviation change, but in practice, the analyst
+would be wise not to rely just on the detection, but also the scores themselves
+to identify peaks. Comparing these peaks with the time series itself will prove
+just as informative. 
 
