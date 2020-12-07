@@ -50,7 +50,7 @@ X <- matrix(
     rnorm(25), rnorm(75, mean = -2), rnorm(50, mean = 4)),
     nrow = 3, ncol = 150, byrow = TRUE
 )
-Xnu <- X[ , 50]
-Xde <- X[ , 100]
+Xnu <- X[ , 1:50]
+Xde <- X[ , 51:ncol(X)]
 RelULSIF(Xnu, Xde)
 }
