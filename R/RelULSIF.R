@@ -43,7 +43,7 @@ RelULSIF <- function(Xnu, Xde, Xce = NULL, sigma = NULL, lambda = NULL,
         Xce <- Xnu[ , sample(n_nu, size = k, replace = TRUE), drop = FALSE]
     } else{
         # check compatibility
-        if (dim(Xce)[1] != dim(Xnu)[1] || dim(Xce)[1] != dim(Xde)[1]) {
+        if (dim(Xce)[1] != dim(Xnu)[1]) {
             stop("Dimensions of Xce and Xnu or Xde incompatible.")
         }
     }
