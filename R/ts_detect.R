@@ -19,6 +19,10 @@
 #' @param thresh Scalar in (0, 1) indicating the percentile above which a score
 #'               is considered a potential change-point. Lower values increase
 #'               the sensitivity.
+#' @param make_plot Logical. On the same figure, make a plot of each dimension
+#'                  of the time series, the rPE scores, and highlight in the time
+#'                  series plots the change points detected in red. Default `false`.
+#'
 #'
 #' @return A vector of change point scores for each time point starting at t = step
 #'         and ending at t = (number of time points) - window_size.
@@ -30,7 +34,7 @@
 #' ts_detect(t)
 ts_detect <- function(ts, window_size = 5, step = NULL,
                       alpha = 0.05, k = 100, n_folds = 5,
-                      thresh = 0.9) {
+                      thresh = 0.9, make_plot = FALSE) {
 
     # compatibility checks on input variables
     # ensure ts is a matrix
@@ -82,6 +86,11 @@ ts_detect <- function(ts, window_size = 5, step = NULL,
         stop("Parameter thresh should be a scalar in (0, 1).")
     }
 
+    # make_plot
+    if (!is.logical(make_plot) || length(make_plot) > 1) {
+        stop("Parameter make_plot should be a single logical value.")
+    }
+
     # constructing sliding window
     sw <- sliding_window(X = ts, window_size = window_size)
     n_samples <- dim(sw)[2]
@@ -101,6 +110,11 @@ ts_detect <- function(ts, window_size = 5, step = NULL,
 
     # get change point indices
     change_points <- which(scores > (thresh * max(scores))) + step
+
+    # make plot, if asked for
+    if (make_plot) {
+        ts_plot(ts, step, scores, change_points)
+    }
 
     # return
     return(list(
