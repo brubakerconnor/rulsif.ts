@@ -105,7 +105,7 @@ ts_detect <- function(ts, window_size = 5, step = NULL,
         y_nu <- y[ , 1:step]
         y_de <- y[ , (step + 1):ncol(y)]
 
-        out <- RelULSIF(y_nu, y_de)
+        out <- RelULSIF(y_nu, y_de, alpha = alpha, k = k)
         scores <- c(scores, out$rPE)
         t <- t + 1
     }
