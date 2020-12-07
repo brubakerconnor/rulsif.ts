@@ -10,7 +10,7 @@
 #' @param step How many sub-sequences forward and backward to from a time point
 #'             to compute a score from. Default is 10% of the length of the series
 #'             if not specified.
-#' @param alpha Relative parameter. Default `0.05`. Setting to `0` recovers
+#' @param alpha Relative parameter in [0, 1). Default `0.05`. Setting to `0` recovers
 #'              ordinary unconstrained least squares importance fitting.
 #' @param k Number of basis functions. Default is minimum of `100` and dimension of
 #'          the time series.
@@ -67,8 +67,8 @@ ts_detect <- function(ts, window_size = 5, step = NULL,
     }
 
     # alpha
-    if (alpha <= 0 || alpha > 1 || length(alpha) != 1) {
-        stop("Parameter alpha must be in (0, 1].")
+    if (alpha < 0 || alpha >= 1 || length(alpha) != 1) {
+        stop("Parameter alpha must be in [0, 1).")
     }
 
     # k

@@ -27,7 +27,7 @@ one-dimensional.}
 to compute a score from. Default is 10\% of the length of the series
 if not specified.}
 
-\item{alpha}{Relative parameter. Default \code{0.05}. Setting to \code{0} recovers
+\item{alpha}{Relative parameter in [0, 1). Default \code{0.05}. Setting to \code{0} recovers
 ordinary unconstrained least squares importance fitting.}
 
 \item{k}{Number of basis functions. Default is minimum of \code{100} and dimension of
