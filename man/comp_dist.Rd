@@ -17,7 +17,3 @@ Squared euclidean distance between points in x1 and x2
 \description{
 Squared euclidean distance for matrices
 }
-\examples{
-x1 <- matrix(rnorm(20), 10, 2)
-x2 <- matrix(rnorm(20), 10, 2)
-}
