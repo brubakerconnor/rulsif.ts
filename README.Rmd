@@ -24,8 +24,17 @@ of detecting change points in time series data. The primary function is `ts_dete
 a sequence of change point scores for each time point starting at a specified point in the series.
 
 ```{r, echo = F}
-ts <- c(rnorm(100, 0, 0.5), rnorm(150, 5, 0.5), rnorm(75, -1, 0.5))
-d <- ts_detect(ts, make_plot = TRUE)
+series <- c(
+    rnorm(50, mean = 0, sd = 0.3),
+    rnorm(25, mean = 8, sd = 1),
+    rnorm(75, mean = 3, sd = 0.6),
+    rnorm(25, mean = 1, sd = 0.8),
+    rnorm(100, mean = -5, sd = 1.5),
+    rnorm(100, mean = -5, sd = 0.2),
+    rnorm(50, mean = -2.5, sd = 0.4),
+    rnorm(50, mean = 2, sd = 1.2)
+)
+d <- ts_detect(series, window_size = 3, step = 10, make_plot = TRUE)
 ```
 
 
