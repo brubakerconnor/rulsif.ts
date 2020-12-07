@@ -42,7 +42,7 @@ the sensitivity.}
 
 \item{make_plot}{Logical. On the same figure, make a plot of each dimension
 of the time series, the rPE scores, and highlight in the time
-series plots the change points detected in red. Default \code{false}.}
+series plots the change points detected in red. Default \code{FALSE}.}
 }
 \value{
 List of 3:

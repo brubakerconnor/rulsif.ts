@@ -21,7 +21,7 @@
 #'               the sensitivity.
 #' @param make_plot Logical. On the same figure, make a plot of each dimension
 #'                  of the time series, the rPE scores, and highlight in the time
-#'                  series plots the change points detected in red. Default `false`.
+#'                  series plots the change points detected in red. Default `FALSE`.
 #'
 #'
 #' @return List of 3:
