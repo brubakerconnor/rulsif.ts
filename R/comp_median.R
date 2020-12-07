@@ -1,3 +1,12 @@
+#' Compute median squared euclidean distance
+#'
+#' @param x Matrix
+#'
+#' @return Scalar: median squared euclidean distance
+#'
+#' @examples
+#' x <- matrix(sample(1:20), 5, 4)
+#' comp_med(x)
 comp_med <- function(x) {
     # dimension parameters
     d <- dim(x)[1]
