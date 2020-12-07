@@ -148,22 +148,22 @@ a more dramatic difference with `alpha = 0.5`, `0.75`, and, towards the extreme,
 detect_alpha_0.5 <- ts_detect(series, alpha = 0.5, make_plot = TRUE)
 ```
 
-Nothing too different still except just at the start of the series.
+Pretty nasty, right?
 
 ```{r}
 detect_alpha_0.75 <- ts_detect(series, alpha = 0.75, make_plot = TRUE)
 ```
 
-This time it looks like we've picked up that small mean change towards the start.
-Now for the last alpha setting.
+Still just as bad.
 
 ```{r}
 detect_alpha_1 <- ts_detect(series, alpha = 0.99, make_plot = TRUE)
 ```
 
-Alright, so nothing truly exciting happened by varying the alpha parameter. But this
-is probably because we may not have the issues of an unbounded ratio with this
-particular series.
+Alright, so increasing the alpha parameter seems to have made things worse in 
+the sense that we get back less and less useful information on the probability
+density ratios. Keep in mind that the original implementation stuck with `0.01`
+as the default setting.
 
 ## Adjusting step
 The last hyperparameter we'll look at is `step` which determines where in the series
