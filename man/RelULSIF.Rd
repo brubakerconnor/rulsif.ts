@@ -28,7 +28,7 @@ RelULSIF(
 
 \item{alpha}{Scalar; relative parameter in [0, 1)}
 
-\item{k}{Integer; number of basis functions}
+\item{k}{Positive integer; number of basis functions}
 
 \item{n_folds}{Integer; number of folds to use in cross fold validation}
 }

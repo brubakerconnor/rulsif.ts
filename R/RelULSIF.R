@@ -6,7 +6,7 @@
 #' @param sigma Scalar or vector; Gaussian kernel bandwidth(s)
 #' @param lambda Scalar or vector; regularization parameter(s)
 #' @param alpha Scalar; relative parameter in [0, 1)
-#' @param k Integer; number of basis functions
+#' @param k Positive integer; number of basis functions
 #' @param n_folds Integer; number of folds to use in cross fold validation
 #'
 #' @return List of 3
@@ -21,9 +21,28 @@ RelULSIF <- function(Xnu, Xde, Xce = NULL, sigma = NULL, lambda = NULL,
     # compatibility checks on data types
     if (is.vector(Xnu)) {
         Xnu <- as.matrix(Xnu)
+    } else if (!is.matrix(Xnu)) {
+        stop("Parameter Xnu should be a matrix.")
     }
     if (is.vector(Xde)) {
         Xde <- as.matrix(Xde)
+    } else if (!is.matrix(Xnu)) {
+        stop("Parameter Xde should be a matrix.")
+    }
+
+    # compatibility checks on alpha
+    if (alpha < 0 || alpha >= 1 || length(alpha) != 1) {
+        stop("Parameter alpha must be in [0, 1).")
+    }
+
+    # check on k
+    if (k <= 0 || length(k) > 1 || k %% 1 != 0) {
+        stop("Parameter k must be a positive integer.")
+    }
+
+    # check on n_folds
+    if (n_folds <= 0 || length(n_folds) > 1 || n_folds %% 1 != 0) {
+        stop("Parameter n_folds must be a positive integer.")
     }
 
     # dimension compatibility checks
