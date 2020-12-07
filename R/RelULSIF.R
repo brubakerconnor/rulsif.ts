@@ -3,8 +3,8 @@
 #' @param Xnu Samples from numerator probability density
 #' @param Xde Samples from denomenator probability density
 #' @param Xce Matrix of centers
-#' @param sigma Scalar or vector; Gaussian kernel bandwidth(s)
-#' @param lambda Scalar or vector; regularization parameter(s)
+#' @param sigma Scalar or vector; Gaussian kernel bandwidth(s). Positive.
+#' @param lambda Scalar or vector; regularization parameter(s). Non-negative.
 #' @param alpha Scalar; relative parameter in [0, 1)
 #' @param k Positive integer; number of basis functions
 #' @param n_folds Integer; number of folds to use in cross fold validation
@@ -16,6 +16,15 @@
 #' @export
 #'
 #' @examples
+#' X <- matrix(
+#'     c(rnorm(50), rnorm(50, mean = 5), rnorm(50, mean = -5),
+#'     rnorm(100), rnorm(25, mean = 3), rnorm(25, mean = -1),
+#'     rnorm(25), rnorm(75, mean = -2), rnorm(50, mean = 4)),
+#'     nrow = 3, ncol = 150, byrow = TRUE
+#' )
+#' Xnu <- X[ , 50]
+#' Xde <- X[ , 100]
+#' RelULSIF(Xnu, Xde)
 RelULSIF <- function(Xnu, Xde, Xce = NULL, sigma = NULL, lambda = NULL,
                    alpha = 0.01, k = 100, n_folds = 5) {
     # compatibility checks on data types
@@ -33,6 +42,32 @@ RelULSIF <- function(Xnu, Xde, Xce = NULL, sigma = NULL, lambda = NULL,
     # compatibility checks on alpha
     if (alpha < 0 || alpha >= 1 || length(alpha) != 1) {
         stop("Parameter alpha must be in [0, 1).")
+    }
+
+    # check on sigma
+    if (!is.null(sigma)) {
+        if (length(sigma) > 1) {
+            if (any(sigma) <= 0) {
+                stop("Values for sigma must be positive.")
+            }
+        } else {
+            if (sigma <= 0) {
+                stop("Parameter sigma must be positive.")
+            }
+        }
+    }
+
+    # check on lambda
+    if (!is.null(lambda)) {
+        if (length(lambda) > 1) {
+            if (any(lambda) < 0) {
+                stop("Values for sigma must be non-negative.")
+            }
+        } else {
+            if (lambda <= 0) {
+                stop("Parameter lambda must be non-negative.")
+            }
+        }
     }
 
     # check on k

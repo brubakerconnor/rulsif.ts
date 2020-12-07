@@ -22,9 +22,9 @@ RelULSIF(
 
 \item{Xce}{Matrix of centers}
 
-\item{sigma}{Scalar or vector; Gaussian kernel bandwidth(s)}
+\item{sigma}{Scalar or vector; Gaussian kernel bandwidth(s). Positive.}
 
-\item{lambda}{Scalar or vector; regularization parameter(s)}
+\item{lambda}{Scalar or vector; regularization parameter(s). Non-negative.}
 
 \item{alpha}{Scalar; relative parameter in [0, 1)}
 
@@ -42,4 +42,15 @@ List of 3
 }
 \description{
 Relative unconstrained least squares importance fitting
+}
+\examples{
+X <- matrix(
+    c(rnorm(50), rnorm(50, mean = 5), rnorm(50, mean = -5),
+    rnorm(100), rnorm(25, mean = 3), rnorm(25, mean = -1),
+    rnorm(25), rnorm(75, mean = -2), rnorm(50, mean = 4)),
+    nrow = 3, ncol = 150, byrow = TRUE
+)
+Xnu <- X[ , 50]
+Xde <- X[ , 100]
+RelULSIF(Xnu, Xde)
 }
