@@ -8,11 +8,24 @@
 <!-- badges: end -->
 
 `rulsif.ts` implements relative unconstrained least squares importance
-fitting for the task of detecting change points in time series data. The
-primary function is `ts_detect` which returns a sequence of change point
-scores for each time point starting at a specified point in the series.
+fitting for the task of detecting change points in time series data.
+Below is a simple example of the use of this package.
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%"/>
+``` r
+series <- c(
+    rnorm(50, mean = 0, sd = 0.3),
+    rnorm(25, mean = 8, sd = 1),
+    rnorm(75, mean = 3, sd = 0.6),
+    rnorm(25, mean = 1, sd = 0.8),
+    rnorm(100, mean = -5, sd = 1.5),
+    rnorm(100, mean = -5, sd = 0.2),
+    rnorm(50, mean = -2.5, sd = 0.4),
+    rnorm(50, mean = 2, sd = 1.2)
+)
+d <- ts_detect(series, window_size = 3, step = 10, make_plot = TRUE)
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 ## Installation
 

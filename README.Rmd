@@ -20,10 +20,10 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 `rulsif.ts` implements relative unconstrained least squares importance fitting for the task
-of detecting change points in time series data. The primary function is `ts_detect` which returns
-a sequence of change point scores for each time point starting at a specified point in the series.
+of detecting change points in time series data. Below is a simple example of the
+use of this package.
 
-```{r, echo = F}
+```{r, echo = T}
 series <- c(
     rnorm(50, mean = 0, sd = 0.3),
     rnorm(25, mean = 8, sd = 1),
