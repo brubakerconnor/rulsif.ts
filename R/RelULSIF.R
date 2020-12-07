@@ -44,7 +44,7 @@ RelULSIF <- function(Xnu, Xde, Xce = NULL, sigma = NULL, lambda = NULL,
         sigma_search_vec <- sigma
         lambda_search_vec <- lambda
         if (is.null(sigma)) {
-            med <- comp_med(cbind(Xde, Xnu))
+            med <- comp_median(cbind(Xde, Xnu))
             sigma_search_vec <- med * seq(0.6, 1.4)
         }
         if (is.null(lambda)) {
