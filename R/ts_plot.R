@@ -4,7 +4,7 @@ ts_plot <- function(ts, step, scores, change_points) {
     n_time_points <- dim(ts)[2]
 
     # graphical parameters
-    par(mfrow = c(ts_dim + 1, 1),
+    graphics::par(mfrow = c(ts_dim + 1, 1),
         oma = rep(1, 4),
         mar = rep(1.2, 4))
 
@@ -17,7 +17,7 @@ ts_plot <- function(ts, step, scores, change_points) {
              ylim = c(1.5 * min(ts[s, ]), 1.5 * max(ts[s, ])))
 
         # plot rectangles to highlight change points
-        rect(xleft = change_points,
+        graphics::rect(xleft = change_points,
              ybottom = rep(1.5 * min(ts), length(change_points)),
              xright = change_points + 1,
              ytop = rep(1.5 * max(ts), length(change_points)),
