@@ -118,7 +118,6 @@ ts_detect <- function(ts, window_size = 5, step = NULL,
 
     # return
     return(list(
-        ts = ts,
         step = step,
         scores = scores,
         change_points = change_points
