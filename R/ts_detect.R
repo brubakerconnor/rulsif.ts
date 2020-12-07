@@ -24,8 +24,10 @@
 #'                  series plots the change points detected in red. Default `false`.
 #'
 #'
-#' @return A vector of change point scores for each time point starting at t = step
-#'         and ending at t = (number of time points) - window_size.
+#' @return List of 3:
+#' - `step`: the step used
+#' - `scores`: rPE scores
+#' - `change_points`: time points that a change was detected at the given threshold
 #' @export
 #'
 #' @examples
