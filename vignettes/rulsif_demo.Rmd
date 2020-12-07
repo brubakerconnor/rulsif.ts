@@ -33,17 +33,19 @@ probability distributions on either side of a time point.
 # RelULSIF
 
 Let's begin by inventing a time series with some "obvious" change points (in mean)
-and some not so obvious change point (in mean). For the sake of simplicity, we'll
-keep the standard deviation of the probability distributions constant.
+and some not so obvious change point (in mean and standard deviation).
 
 ```{r}
+set.seed(2883)
 series <- c(
-    rnorm(50, mean = 0, sd = 1),
+    rnorm(50, mean = 0, sd = 0.3),
     rnorm(25, mean = 8, sd = 1),
-    rnorm(75, mean = 3, sd = 1),
-    rnorm(100, mean = -5, sd = 1),
-    rnorm(25, mean = -2.5, sd = 1),
-    rnorm(50, mean = 2, sd = 1)
+    rnorm(75, mean = 3, sd = 0.6),
+    rnorm(25, mean = 1, sd = 0.8),
+    rnorm(100, mean = -5, sd = 1.5),
+    rnorm(100, mean = -5, sd = 0.2),
+    rnorm(50, mean = -2.5, sd = 0.4),
+    rnorm(50, mean = 2, sd = 1.2)
 )
 ```
 
@@ -62,4 +64,122 @@ algorithm performs with the default parameters.
 detect <- ts_detect(series, make_plot = TRUE)
 ```
 
-Not too bad, but adjusting the algorithm's hyperparameters may help us out. 
+Not too bad, but clearly not all change points are detected. Adjusting the algorithm's 
+hyperparameters may help us out. 
+
+
+## Adjusting the threshold
+The simplest way to detect more change points that may be missing is simply
+to increase the sensitivity of detection, that is, decrease the parameter
+`thresh`. By default it's set to 0.9 which means that for a time point to
+be classified as a change point, it's corresponding rPE score must exceed the 
+90th percentile of rPE scores across the time series. Decreasing this
+parameter obviously increases the number of time point classified as 
+change points.
+
+```{r}
+detect_lower_thresh <- ts_detect(series, thresh = 0.65, make_plot = TRUE)
+```
+
+Lowering the threshold seems to have picked up a few more change points,
+but in practice when we don't know how many true change points there are, the
+threshold parameter really only represents how likely we think a change point
+is to be or how sensitive we'd like the detection to be. 
+
+## Adjusting the window size
+RelULSIF "looks" back and forward in the view of multiple *subsequences*
+of the data rather than just simply the previous and future $W$ time points. By
+increasing the window size $W$, we tell RelULSIF to gather more subsequences of
+the same length in the past and future to estimate the probability ratio. Making
+the window size too short may limit how much information is available while
+making it too long may mean that more subtle change points are overlooked.
+
+The default window size is `5`, so let's see first what happens when we make it a tad
+longer, say `20`.
+
+```{r}
+detect_longer_window <- ts_detect(series, window_size = 20, make_plot = TRUE)
+```
+
+So that seems to have made it worse. The detected change points are shifted
+from before and the results seem more "sloopy".
+
+This should make sense, the lengths
+of several of the subsequences drawm from different parameter pairs aren't too long
+so increasing the window size will "mix" some of them together (e.g. it would
+make the third and fourth subsequence look like they're from the same distribution
+since their means are rather close).
+
+However, there is one positive here: there are more peaks in the rPE around the 
+area where the mean is held at -5 but the standard  deviation changes from 1.5 to 0.2. 
+
+Now let's try decreasing the window size to `3`.
+
+```{r}
+detect_shorter_window <- ts_detect(series, window_size = 3, make_plot = TRUE)
+```
+
+Again it seems we are getting some peaks at that standard deviation change, but
+this time the results are a little neater and more accurate. We're still
+missing some of the true change points, but we could just reduce the threshold
+to pick those up.
+
+## Adjusting alpha
+In some cases, the ratio of the probability densities $p(Y) / p'(Y)$ may
+be unbounded which is a problem since the standard ULSIF relies on the "sup"-norm.
+RelULSIF was introduced precisely to address this issue. The parameter `alpha` "smooths"
+the density ratio. When `alpha = 0`,  we recover standard ULSIF. As `alpha` tends to 1,
+the density ratio gets "smoother".
+
+The default setting is `alpha = 0.05`. Let's first set it to `0` to compare the
+results to standard ULSIF.
+
+```{r}
+detect_alpha_0 <- ts_detect(series, alpha = 0, make_plot = TRUE)
+```
+
+Okay, not so different, but expected since the default *is* 0.05. Now let's try
+a more dramatic difference with `alpha = 0.5`, `0.75`, and, towards the extreme, `0.99`.
+
+```{r}
+detect_alpha_0.5 <- ts_detect(series, alpha = 0.5, make_plot = TRUE)
+```
+
+Nothing too different still except just at the start of the series.
+
+```{r}
+detect_alpha_0.75 <- ts_detect(series, alpha = 0.75, make_plot = TRUE)
+```
+
+This time it looks like we've picked up that small mean change towards the start.
+Now for the last alpha setting.
+
+```{r}
+detect_alpha_1 <- ts_detect(series, alpha = 0.99, make_plot = TRUE)
+```
+
+Alright, so nothing truly exciting happened by varying the alpha parameter. But this
+is probably because we may not have the issues of an unbounded ratio with this
+particular series.
+
+## Adjusting step
+The last hyperparameter we'll look at is `step` which determines where in the series
+of subsequences of the time series we begin our search. The default is 10% the 
+length of the time series. Pulling the step back has the advantage
+of detecting earlier (and later, since it "widens" the search in both directions) time points,
+but the disadvantage of higher computation time in cases where that may be an issue.
+
+```{r}
+detect_step_10 <- ts_detect(series, step = 10, make_plot = TRUE)
+```
+
+Now we're really getting somewhere. Not only do we get much more distinct peaks at the true
+change points, we get more of a signal at that standard deviation change. 
+
+```{r}
+detect_step_100 <- ts_detect(series, step = 100, make_plot = TRUE)
+```
+
+There really is a true disadvantage to reducing the step size; you should really try to make
+it as small as possible if you can afford the computation time.
+
