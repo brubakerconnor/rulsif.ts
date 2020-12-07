@@ -1,3 +1,21 @@
+#' Relative unconstrained least squares importance fitting
+#'
+#' @param Xnu Samples from numerator probability density
+#' @param Xde Samples from denomenator probability density
+#' @param Xce Matrix of centers
+#' @param sigma Scalar or vector; Gaussian kernel bandwidth(s)
+#' @param lambda Scalar or vector; regularization parameter(s)
+#' @param alpha Scalar; relative parameter in [0, 1)
+#' @param k Integer; number of basis functions
+#' @param n_folds Integer; number of folds to use in cross fold validation
+#'
+#' @return List of 3
+#' - opt_sigma: chosen sigma from CV
+#' - opt_lambda: chosen lambda from CV
+#' - rPE: relative Pearson divergence
+#' @export
+#'
+#' @examples
 RelULSIF <- function(Xnu, Xde, Xce = NULL, sigma = NULL, lambda = NULL,
                    alpha = 0.01, k = 100, n_folds = 5) {
     # compatibility checks on data types
