@@ -1,3 +1,17 @@
+#' Grid search via cross validation on sigma and lambda parameters
+#'
+#' @param Nnu Number of points in numerator
+#' @param Nde Number of points in denomenator
+#' @param k Number of basis functions
+#' @param dist_nu Distance matrix for numerator
+#' @param dist_de Distance matrix for denomenator
+#' @param sigma_list Sigma values to search over
+#' @param lambda_list Lambda values to search over
+#' @param alpha Relative parameter
+#' @param n_folds Number of folds for CV
+#'
+#' @return Optimal sigma-lambda pair
+#'
 sigma_lambda_grid_search <- function(Nnu, Nde, k, dist_nu, dist_de,
     sigma_list, lambda_list, alpha, n_folds) {
     # parameters

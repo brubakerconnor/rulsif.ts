@@ -1,3 +1,10 @@
+#' Plot change point detection results
+#'
+#' @param ts Time series input
+#' @param step Starting point of detection
+#' @param scores rPE scores
+#' @param change_points Detected change point indices
+#'
 ts_plot <- function(ts, step, scores, change_points) {
     # dimension parameters
     ts_dim <- dim(ts)[1]

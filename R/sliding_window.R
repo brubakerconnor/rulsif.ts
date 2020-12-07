@@ -1,3 +1,10 @@
+#' Matrix of subsequences (sliding window)
+#'
+#' @param X Data matrix
+#' @param window_size How many subsequences constitute a single window
+#'
+#' @return Matrix of subsequences
+#'
 sliding_window <- function(X, window_size) {
     # dimension parameters
     dim_ts <- dim(X)[1]
