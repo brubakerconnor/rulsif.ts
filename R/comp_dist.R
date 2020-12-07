@@ -1,3 +1,13 @@
+#' Squared euclidean distance for matrices
+#'
+#' @param x1 Matrix
+#' @param x2 Matrix
+#'
+#' @return Squared euclidean distance between points in x1 and x2
+#'
+#' @examples
+#' x1 <- matrix(rnorm(20), 10, 2)
+#' x2 <- matrix(rnorm(20), 10, 2)
 comp_dist <- function(x1, x2) {
     # dimensional parameters
     nx1 <- dim(x1)[2]
