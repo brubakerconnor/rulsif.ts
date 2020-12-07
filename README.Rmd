@@ -25,20 +25,7 @@ a sequence of change point scores for each time point starting at a specified po
 
 ```{r, echo = F}
 ts <- c(rnorm(100, 0, 0.5), rnorm(150, 5, 0.5), rnorm(75, -1, 0.5))
-d <- ts_detect(ts)
-change_point_indices <- d$change_points
-par(mfrow = c(2, 1), oma = rep(1, 4),
-          mar = rep(0.5, 4))
-plot(1:length(ts), ts, type = 'l', xlab = '', ylab = '', xaxt = 'n', yaxt = 'n')
-rect(xleft = change_point_indices, 
-     ybottom = rep(min(ts), length(change_point_indices)) - 0.5,
-     xright = change_point_indices + 1, 
-     ytop = rep(max(ts, length(change_point_indices))) + 0.5,
-     col = '#DD666666', border = NA)
-plot(1:length(d$scores) + d$step, d$scores, type = 'l', col = 'red', 
-     xlim = c(1, length(ts)),
-     xlab = '', ylab = '',
-     xaxt = 'n', yaxt = 'n')
+d <- ts_detect(ts, make_plot = TRUE)
 ```
 
 
