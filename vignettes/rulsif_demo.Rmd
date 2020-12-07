@@ -7,6 +7,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, echo=FALSE}
+library(rulsif.ts)
+```
+
 # Introduction
 
 This vignette assumes basic familiarity with time series data. It will start 
@@ -23,3 +27,39 @@ it did occur. In more mathematical terms, suppose we have an ordered sequence of
 $y_{N} = (y_1, \ldots, y_N)$. We say a change point has occurred if there exists a
 time point $t^* \in \{1, 2, \ldots, N - 1\}$ such that the statistical properties
 of $(y_1, \ldots, y_{t^*})$ and $(y_{t^*+1}, \ldots, y_N)$ are different in some way.
+RelULSIF solves this problem by computing the *ratio* of the 
+probability distributions on either side of a time point.
+
+# RelULSIF
+
+Let's begin by inventing a time series with some "obvious" change points (in mean)
+and some not so obvious change point (in mean). For the sake of simplicity, we'll
+keep the standard deviation of the probability distributions constant.
+
+```{r}
+series <- c(
+    rnorm(50, mean = 0, sd = 1),
+    rnorm(25, mean = 8, sd = 1),
+    rnorm(75, mean = 3, sd = 1),
+    rnorm(100, mean = -5, sd = 1),
+    rnorm(25, mean = -2.5, sd = 1),
+    rnorm(50, mean = 2, sd = 1)
+)
+```
+
+And now visualize the series:
+
+```{r, fig.width=6, fig.height=4, fig.align='center'}
+plot(1:length(series), series, type = 'l', xlab = 'time', ylab = 'data')
+```
+
+According to the way we constructed the object `series`, the true change points
+occur at $t = 50, 75, 150, 250, 275,$ and $325$. Let's see how the RelULSIF 
+algorithm performs with the default parameters.
+
+```{r, fig.width=6, fig.height=4, fig.align='center'}
+# run the algorithm across the time series and plot the results
+detect <- ts_detect(series, make_plot = TRUE)
+```
+
+Not too bad, but adjusting the algorithm's hyperparameters may help us out. 
