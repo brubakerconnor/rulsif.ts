@@ -41,7 +41,8 @@ List of 3
 }
 }
 \description{
-Relative unconstrained least squares importance fitting
+Estimate the ratio of probability densities that generated
+data in two samples (Xnu and Xde).
 }
 \examples{
 X <- matrix(

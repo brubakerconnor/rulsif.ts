@@ -1,5 +1,8 @@
 #' Relative unconstrained least squares importance fitting
 #'
+#' Estimate the ratio of probability densities that generated
+#' data in two samples (Xnu and Xde).
+#'
 #' @param Xnu Samples from numerator probability density
 #' @param Xde Samples from denomenator probability density
 #' @param Xce Matrix of centers
