@@ -56,7 +56,7 @@ List of 3:
 Detect change points in a time series using RelULSIF.
 }
 \examples{
-t <- c(rnorm(150, mean = 0), rnorm(150, mean = 5), rnorm(150, mean = 1))
-t <- matrix(t, nrow = 1)
-ts_detect(t)
+s <- c(rnorm(150, mean = 0), rnorm(150, mean = 5), rnorm(150, mean = 1))
+s <- matrix(s, nrow = 1)
+ts_detect(s)
 }

@@ -31,9 +31,9 @@
 #' @export
 #'
 #' @examples
-#' t <- c(rnorm(150, mean = 0), rnorm(150, mean = 5), rnorm(150, mean = 1))
-#' t <- matrix(t, nrow = 1)
-#' ts_detect(t)
+#' s <- c(rnorm(150, mean = 0), rnorm(150, mean = 5), rnorm(150, mean = 1))
+#' s <- matrix(s, nrow = 1)
+#' ts_detect(s)
 ts_detect <- function(ts, window_size = 5, step = NULL,
                       alpha = 0.05, k = 100, n_folds = 5,
                       thresh = 0.9, make_plot = FALSE) {
