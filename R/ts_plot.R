@@ -21,13 +21,13 @@ ts_plot <- function(ts, step, scores, change_points) {
         plot(1:n_time_points, ts[s, ], type = 'l',
              xlab = NULL, ylab = paste("y", s, sep = ''),
              xlim = c(1, n_time_points),
-             ylim = c(1.5 * min(ts[s, ]), 1.5 * max(ts[s, ])))
+             ylim = c(min(ts[s, ]), max(ts[s, ])))
 
         # plot rectangles to highlight change points
         graphics::rect(xleft = change_points,
-             ybottom = rep(1.5 * min(ts), length(change_points)),
+             ybottom = rep(min(ts[s, ]), length(change_points)),
              xright = change_points + 1,
-             ytop = rep(1.5 * max(ts), length(change_points)),
+             ytop = rep(max(ts[s, ]), length(change_points)),
              col = '#DD666666', border = NA)
     }
 
