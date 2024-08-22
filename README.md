@@ -34,7 +34,7 @@ You can install the the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("connorbrubaker/rulsif.ts")
+devtools::install_github("brubakerconnor/rulsif.ts")
 ```
 
 ## References
